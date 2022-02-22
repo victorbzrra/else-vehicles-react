@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
+import "./styles.css";
+
 interface Props {
   children: ReactNode;
 }
@@ -10,9 +12,9 @@ export function AppLayout({ children }: Props) {
   const { Header, Content } = Layout;
 
   return (
-    <Layout>
+    <div style={{ height: "100%" }}>
       <Header>
-        <div></div>
+        <div className="logo">ELSE VEÍCULOS</div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
           <Menu.Item key="/">
             <Link to="/">Ofertas</Link>
@@ -22,7 +24,9 @@ export function AppLayout({ children }: Props) {
           </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ padding: 0 }}>{children}</Content>
-    </Layout>
+      <Content>
+        <div className="content">{children}</div>
+      </Content>
+    </div>
   );
 }
