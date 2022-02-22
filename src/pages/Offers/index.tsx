@@ -1,13 +1,22 @@
 import { useState } from "react";
-import { Button, Card, Col, Row } from "antd";
-import { AppstoreOutlined, EyeOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { Button, Col, Row } from "antd";
+
 import { CardGrid } from "./components/CardGrid";
 import { CardList } from "./components/CardList";
+import { ViewOffer } from "./components/ViewOffer";
+
+import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
+
 
 export function Offers() {
-  const [view, setView] = useState(true);
+  const [view, setView] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
 
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  function showModal() {
+    setViewModal(!viewModal);
+  }
 
   return (
     <>
@@ -23,14 +32,21 @@ export function Offers() {
         ? (
           <CardGrid 
             offers={array}
+            showModal={showModal}
           />
         )
         : (
           <CardList
             offers={array}
+            showModal={showModal}
           />
         )
       }
+      <ViewOffer 
+        visible={viewModal} 
+        showModal={showModal}
+        offers={array}
+      />
     </>
   );
 }

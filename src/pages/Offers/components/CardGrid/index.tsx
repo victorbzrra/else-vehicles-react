@@ -3,7 +3,7 @@ import { Button, Card, Col, Row } from "antd";
 
 import { Offers } from "../../interfaces/interfaces";
 
-export function CardGrid({ offers }: Offers) {
+export function CardGrid({ offers, showModal }: Offers) {
   return (
     <Row justify="space-around">
       {offers.map(() => (
@@ -11,6 +11,7 @@ export function CardGrid({ offers }: Offers) {
           <Card
             hoverable
             style={{ width: 340 }}
+            onClick={showModal}
             // cover={}
           >
             <Row>Modelo, Marca</Row>
@@ -18,9 +19,7 @@ export function CardGrid({ offers }: Offers) {
             <Row justify="space-between">
               <Col>2022</Col>
               <Col offset={8}>
-                <Button shape="round" icon={<EyeOutlined />}>
-                  12
-                </Button>
+                {<EyeOutlined />} 12
               </Col>
             </Row>
           </Card>

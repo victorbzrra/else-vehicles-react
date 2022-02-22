@@ -1,8 +1,8 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import { Offers } from "../../interfaces/interfaces";
 
-export function CardList({ offers }: Offers) {
+export function CardList({ offers, showModal }: Offers) {
   return (
     <>
       {offers.map(() => (
@@ -10,6 +10,7 @@ export function CardList({ offers }: Offers) {
           <Card
             type="inner"
             style={{ minWidth: 550 }}
+            onClick={showModal}
             hoverable
           >
             <Row>Modelo, Marca</Row>
@@ -17,9 +18,7 @@ export function CardList({ offers }: Offers) {
             <Row justify="space-between">
               <Col>2022</Col>
               <Col offset={8}>
-                <Button shape="round" icon={<EyeOutlined />}>
-                  12
-                </Button>
+                {<EyeOutlined />} 12
               </Col>
             </Row>
           </Card>
