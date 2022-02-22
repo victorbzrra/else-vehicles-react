@@ -2,7 +2,6 @@
   margin-top: 30px;
   text-align: center;
   height: 250px;
-  line-height: 160px;
-  background: #1890ff;
+  line-height: 0px;
   overflow: hidden;
 }

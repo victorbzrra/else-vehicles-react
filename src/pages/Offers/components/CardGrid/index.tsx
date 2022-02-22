@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 
 import { Offers } from "../../interfaces/interfaces";
 

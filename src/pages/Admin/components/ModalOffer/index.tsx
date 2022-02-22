@@ -71,7 +71,7 @@ export function ModalOffer ({ visible, showModal }: Offer) {
               rules={[
                 {
                   required: true,
-                  message: "Por favor, insira a quilometragem!",
+                  message: "Por favor, insira o Km!",
                 },
               ]}
               style={{ flexDirection: "column", alignItems: "flex-start" }}
