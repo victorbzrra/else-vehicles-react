@@ -7,6 +7,8 @@ import ptBR from "antd/lib/locale/pt_BR";
 
 import 'antd/dist/antd.min.css';
 
+import './services/firebase';
+
 ReactDOM.render(
   <React.StrictMode>
     <ConfigProvider locale={ptBR} >

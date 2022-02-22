@@ -1,0 +1,19 @@
+.logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  
+  color: #ffffff;
+  font-size: medium;
+  font-weight: bold;
+  
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.content {
+  padding: 50px; 
+  padding-left: 0;
+}
