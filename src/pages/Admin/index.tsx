@@ -1,9 +1,12 @@
 import { Col, Row, Input, Button, Table } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
+import { useState } from "react";
+import { ModalOffer } from "./components/ModalOffer";
 
 export function Admin() {
   const { Search } = Input;
-
+  const [viewModalOffer, setViewModalOffer] = useState(false);
+  
   const columns = [
     {
       title: 'Modelo'
@@ -28,6 +31,10 @@ export function Admin() {
     }
   ];
 
+  function showModalOffer() {
+    setViewModalOffer(!viewModalOffer);
+  }
+
   return (
     <>
       <Row justify="space-around" style={{ marginBottom: 50, minWidth: 550 }}>
@@ -35,7 +42,11 @@ export function Admin() {
           <Search placeholder="Modelo, Marca, Ano, Cor" enterButton />
         </Col>
         <Col>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />}
+            onClick={showModalOffer}
+          >
             Nova Oferta
           </Button>
         </Col>
@@ -45,6 +56,7 @@ export function Admin() {
           <Table columns={columns} />
         </Col>
       </Row>
+      <ModalOffer visible={viewModalOffer} showModal={showModalOffer}/>
     </>
   );
 }

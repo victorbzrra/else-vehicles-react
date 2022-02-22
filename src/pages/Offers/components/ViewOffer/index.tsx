@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Carousel, Col, Modal, Row } from "antd";
+import { Carousel, Col, Modal, Row, Image } from "antd";
 import { Offers } from "../../interfaces/interfaces";
 
 import './styles.css'
@@ -9,19 +9,13 @@ export function ViewOffer ({ visible, showModal, offers}: Offers) {
     <Modal visible={visible} onCancel={showModal} footer={false}>
       <Carousel autoplay>
         <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
+          <Image
+            width={300}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
         </div>
       </Carousel>
-      <Row justify="space-between" style={{marginTop: 30}}>
+      <Row justify="space-between" style={{ marginTop: 30 }}>
         <Col>Modelo, Marca, Ano</Col>
         <Col>R$ 10.000,00</Col>
       </Row>
