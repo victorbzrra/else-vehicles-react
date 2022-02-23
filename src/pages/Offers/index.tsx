@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Row } from "antd";
 
 import { CardGrid } from "./components/CardGrid";
@@ -7,12 +7,26 @@ import { ViewOffer } from "./components/ViewOffer";
 
 import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
+import { database } from '../../services/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-export function Offers() {
+import { Offers } from "../../interfaces/interfaces";
+
+export function OffersPage() {
   const [view, setView] = useState(false);
+  const [offers, setOffers] = useState<Offers[]>([]);
   const [viewModal, setViewModal] = useState(false);
 
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const offersCollectionRef = collection(database, "offers");
+
+  useEffect(() => {
+    const getOffers = async () => {
+      const data = await getDocs(offersCollectionRef);
+      setOffers(data.docs.map((doc: any) => ({ ...doc.data(), id: doc.id})));
+    };
+
+    getOffers();
+  });
 
   function showModal() {
     setViewModal(!viewModal);
@@ -31,13 +45,13 @@ export function Offers() {
       { view === false 
         ? (
           <CardGrid 
-            offers={array}
+            offers={offers}
             showModal={showModal}
           />
         )
         : (
           <CardList
-            offers={array}
+            offers={offers}
             showModal={showModal}
           />
         )
@@ -45,7 +59,7 @@ export function Offers() {
       <ViewOffer 
         visible={viewModal} 
         showModal={showModal}
-        offers={array}
+        offers={offers}
       />
     </>
   );

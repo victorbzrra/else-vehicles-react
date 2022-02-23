@@ -1,25 +1,31 @@
-import { EyeOutlined } from "@ant-design/icons";
 import { Card, Col, Row } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 
-import { Offers } from "../../interfaces/interfaces";
+import { Props } from "../../interfaces/interfaces";
+import { Offers } from "../../../../interfaces/interfaces";
 
-export function CardGrid({ offers, showModal }: Offers) {
+export function CardGrid({ offers, showModal }: Props) {
   return (
     <Row justify="space-around">
-      {offers.map(() => (
+      {offers.map((offer: Offers) => (
         <Col offset={1} style={{ marginBottom: 20 }}>
           <Card
             hoverable
             style={{ width: 340 }}
             onClick={showModal}
-            // cover={}
+            cover={
+              <img
+                alt={`${offer.model}, ${offer.brand}`}
+                src={offer.images[0]}
+              />
+            }
           >
-            <Row>Modelo, Marca</Row>
-            <Row>R$ 10.000 - 120.000 km</Row>
+            <Row>{`${offer.model}, ${offer.brand}`}</Row>
+            <Row>{`R$ ${offer.price} - ${offer.mileage} Km`}</Row>
             <Row justify="space-between">
-              <Col>2022</Col>
+              <Col>{offer.year}</Col>
               <Col offset={8}>
-                {<EyeOutlined />} 12
+                {<EyeOutlined />} {offer.views}
               </Col>
             </Row>
           </Card>

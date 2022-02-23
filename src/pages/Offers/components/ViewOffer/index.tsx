@@ -1,10 +1,11 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Carousel, Col, Modal, Row, Image } from "antd";
-import { Offers } from "../../interfaces/interfaces";
+
+import { Props } from "../../interfaces/interfaces";
 
 import './styles.css'
 
-export function ViewOffer ({ visible, showModal, offers}: Offers) { 
+export function ViewOffer ({ visible, showModal, offers }: Props) { 
   return (
     <Modal visible={visible} onCancel={showModal} footer={false}>
       <Carousel autoplay>

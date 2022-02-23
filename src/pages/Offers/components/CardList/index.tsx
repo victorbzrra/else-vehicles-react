@@ -1,11 +1,13 @@
-import { EyeOutlined } from "@ant-design/icons";
 import { Card, Col, Row } from "antd";
-import { Offers } from "../../interfaces/interfaces";
+import { EyeOutlined } from "@ant-design/icons";
 
-export function CardList({ offers, showModal }: Offers) {
+import { Props } from "../../interfaces/interfaces";
+import { Offers } from "../../../../interfaces/interfaces";
+
+export function CardList({ offers, showModal }: Props) {
   return (
     <>
-      {offers.map(() => (
+      {offers.map((offer: Offers) => (
         <Row justify="center" style={{ marginBottom: 30 }}>
           <Card
             type="inner"
@@ -13,12 +15,12 @@ export function CardList({ offers, showModal }: Offers) {
             onClick={showModal}
             hoverable
           >
-            <Row>Modelo, Marca</Row>
-            <Row>R$ 10.000 - 120.000 km</Row>
+            <Row>{`${offer.model}, ${offer.brand}`}</Row>
+            <Row>{`R$ ${offer.price} - ${offer.mileage} Km`}</Row>
             <Row justify="space-between">
-              <Col>2022</Col>
+              <Col>{offer.year}</Col>
               <Col offset={8}>
-                {<EyeOutlined />} 12
+                {<EyeOutlined />} {offer.views}
               </Col>
             </Row>
           </Card>
