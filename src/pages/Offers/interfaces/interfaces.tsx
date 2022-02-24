@@ -1,7 +1,11 @@
 import { Offers } from "../../../interfaces/interfaces";
 
-export interface Props {
+export interface GridProps {
   offers: Offers[];
-  showModal: () => void;
-  visible?: boolean;
+}
+
+export interface ModalProps {
+  offer: Offers | undefined;
+  handleViewModal: () => void;
+  visible: boolean;
 }

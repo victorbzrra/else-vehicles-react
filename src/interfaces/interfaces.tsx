@@ -10,4 +10,5 @@ export interface Offers {
   city: string;
   images: string[];
   views: number;
+  date: string;
 }

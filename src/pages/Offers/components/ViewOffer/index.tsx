@@ -1,31 +1,33 @@
-import { CaretRightOutlined, EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 import { Carousel, Col, Modal, Row, Image } from "antd";
 
-import { Props } from "../../interfaces/interfaces";
+import { ModalProps } from "../../interfaces/interfaces";
 
 import './styles.css'
 
-export function ViewOffer ({ visible, showModal, offers }: Props) { 
+export function ViewOffer ({ visible, handleViewModal, offer }: ModalProps) { 
   return (
-    <Modal visible={visible} onCancel={showModal} footer={false}>
+    <Modal visible={visible} onCancel={handleViewModal} footer={false}>
       <Carousel autoplay>
-        <div>
-          <Image
-            width={300}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        </div>
+        {offer?.images.map((image) => (
+          <div>
+            <Image
+              width={300}
+              src={image}
+            />
+          </div>
+        ))}
       </Carousel>
       <Row justify="space-between" style={{ marginTop: 30 }}>
-        <Col className="title">Modelo, Marca, Ano</Col>
-        <Col className="title">R$ 10.000,00</Col>
+        <Col className="title">{`${offer?.model}, ${offer?.brand}, ${offer?.year}`}</Col>
+        <Col className="title">{`R$ ${offer?.price}`}</Col>
       </Row>
-      <Row className="description">100.000 KM</Row>
-      <Row>Azul · ESM-9001 · Russas · Ceará</Row>
+      <Row className="description">{`${offer?.mileage} Km`}</Row>
+      <Row>{`${offer?.color} · ${offer?.plate} · ${offer?.city}`}</Row>
       <Row justify="space-between">
-        <Col>Ofertado em: 22/02/2022</Col>
+        <Col>{`Ofertado em: ${offer?.date}`}</Col>
         <Col>
-          <EyeOutlined /> 12
+          <EyeOutlined /> {`${offer?.views}`}
         </Col>
       </Row>
     </Modal>

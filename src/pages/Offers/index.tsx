@@ -3,7 +3,7 @@ import { Button, Col, Row } from "antd";
 
 import { CardGrid } from "./components/CardGrid";
 import { CardList } from "./components/CardList";
-import { ViewOffer } from "./components/ViewOffer";
+// import { ViewOffer } from "./components/ViewOffer";
 
 import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
@@ -15,7 +15,6 @@ import { Offers } from "../../interfaces/interfaces";
 export function OffersPage() {
   const [view, setView] = useState(false);
   const [offers, setOffers] = useState<Offers[]>([]);
-  const [viewModal, setViewModal] = useState(false);
 
   const offersCollectionRef = collection(database, "offers");
 
@@ -27,10 +26,6 @@ export function OffersPage() {
 
     getOffers();
   });
-
-  function showModal() {
-    setViewModal(!viewModal);
-  }
 
   return (
     <>
@@ -46,21 +41,21 @@ export function OffersPage() {
         ? (
           <CardGrid 
             offers={offers}
-            showModal={showModal}
+            // showModal={showModal}
           />
         )
         : (
           <CardList
             offers={offers}
-            showModal={showModal}
+            // showModal={showModal}
           />
         )
       }
-      <ViewOffer 
+      {/* <ViewOffer 
         visible={viewModal} 
         showModal={showModal}
         offers={offers}
-      />
+      /> */}
     </>
   );
 }
