@@ -1,18 +1,52 @@
-import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
-import { Col, DatePicker, Form, Input, InputNumber, Modal, Row } from "antd";
 import moment from "moment";
+import { useState } from "react";
+import { CloseOutlined, DeleteOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Upload } from "antd";
+import { storage, refer, upload, getUrl } from "../../../../services/firebase";
+
 import { Offer } from "../../interfaces/interfaces";
 
 export function ModalOffer ({ visible, showModal }: Offer) { 
   const [form] = Form.useForm();
+  const [urls, setUrls] = useState<string[]>([]);
+  const [images, setImages] = useState<any[]>([]);
+
+  const handleChange = (e: any) => {
+    const uploadedFiles = [...e.target.files];
+    uploadedFiles.map((file) => {
+      setImages((prevState) => [...prevState, { file, id: Math.random() }]);
+    });
+  }
+
+  const handleDelete = () => {
+    form.resetFields(["images"])
+    setImages([]);
+  }
+
+  function handleUpload() {
+    images.map((image) => {
+      const storageRef = refer(storage, `images/${image.file.name}`);
+      const uploadTask = upload(storageRef, image.file);
+
+      uploadTask.on('state_changed',
+        async () => {
+          await getUrl(uploadTask.snapshot.ref).then((downloadURL) => {
+            setUrls((prevState) => [...prevState, downloadURL]);
+          })
+        }
+      )
+    })
+  }
   
   return (
     <Modal
-      visible={visible}
-      onCancel={showModal}
-      cancelButtonProps={{ icon: <CloseOutlined /> }}
       okText="Salvar"
+      visible={visible}
+      onOk={handleUpload}
+      onCancel={showModal}
+      afterClose={handleDelete}
       okButtonProps={{ icon: <SaveOutlined /> }}
+      cancelButtonProps={{ icon: <CloseOutlined /> }}
     >
       <Form wrapperCol={{ style: { width: "100%" } }} form={form}>
         <Row justify="space-around">
@@ -140,6 +174,32 @@ export function ModalOffer ({ visible, showModal }: Offer) {
             >
               <Input />
             </Form.Item>
+          </Col>
+        </Row>
+        <Row justify="space-between">
+          <Col style={{ marginLeft: 10 }}>
+            <Form.Item
+              label="Imagens"
+              name="images"
+              colon={false}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, insira pelo menos duas imagens!",
+                },
+              ]}
+              style={{ flexDirection: "column", alignItems: "flex-start" }}
+            >
+              <Input
+                type="file"
+                accept=".png,.jpge"
+                multiple
+                onChange={handleChange}
+              />
+            </Form.Item>
+          </Col>
+          <Col style={{ marginTop: 40, marginRight: 100, color: "red" }}>
+            <DeleteOutlined onClick={handleDelete} />
           </Col>
         </Row>
       </Form>
