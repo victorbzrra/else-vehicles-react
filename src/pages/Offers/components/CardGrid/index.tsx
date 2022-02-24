@@ -4,6 +4,8 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Props } from "../../interfaces/interfaces";
 import { Offers } from "../../../../interfaces/interfaces";
 
+import "../../styles/styles.css";
+
 export function CardGrid({ offers, showModal }: Props) {
   return (
     <Row justify="space-around">
@@ -20,8 +22,8 @@ export function CardGrid({ offers, showModal }: Props) {
               />
             }
           >
-            <Row>{`${offer.model}, ${offer.brand}`}</Row>
-            <Row>{`R$ ${offer.price} - ${offer.mileage} Km`}</Row>
+            <Row className="title">{`${offer.model}, ${offer.brand}`}</Row>
+            <Row className="description">{`R$ ${offer.price} - ${offer.mileage} Km`}</Row>
             <Row justify="space-between">
               <Col>{offer.year}</Col>
               <Col offset={8}>
