@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore} from '@firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getFirestore} from '@firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -12,3 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const database = getFirestore(app);
+export const storage = getStorage(app);
+export const refer = ref;
+export const getUrl = getDownloadURL;
+export const upload = uploadBytesResumable;
