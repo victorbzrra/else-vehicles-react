@@ -68,7 +68,7 @@ export function ModalOffer ({ visible, showModal, offersCollectionRef }: Offer) 
       handleDeleteUrls();
     }
   } 
-  
+
   return (
     <Modal
       okText="Salvar"
@@ -155,7 +155,6 @@ export function ModalOffer ({ visible, showModal, offersCollectionRef }: Offer) 
               <DatePicker
                 picker="year"
                 placeholder="Ano"
-                defaultValue={moment()}
               />
             </Form.Item>
           </Col>

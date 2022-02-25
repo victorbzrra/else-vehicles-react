@@ -3,6 +3,8 @@ import { AlignType } from "rc-table/lib/interface";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import { Offers } from "../../../../interfaces/interfaces";
+import { deleteDoc, doc } from "firebase/firestore";
+import { database } from "../../../../services/firebase";
 
 export const columns = [
   {
@@ -53,7 +55,10 @@ export const columns = [
       <p>
         <Button
           icon={<DeleteOutlined />}
-          // onClick={}
+          onClick={async () => {
+            const offerDoc = doc(database, "offers", offer?.id as string);
+            await deleteDoc(offerDoc);
+          }}
         />
       </p>
     ),
