@@ -28,7 +28,7 @@ export function OffersPage() {
     };
 
     getOffers();
-  }, [offers]);
+  }, [offers, offersCollectionRef]);
 
   return (
     <>

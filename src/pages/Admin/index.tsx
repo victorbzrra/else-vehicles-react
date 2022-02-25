@@ -86,7 +86,7 @@ export function Admin() {
     };
 
     getOffers();
-  }, [offers]);
+  }, [offers, offersCollectionRef]);
 
   function showModalOffer() {
     setViewModalOffer(!viewModalOffer);
