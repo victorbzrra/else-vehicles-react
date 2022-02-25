@@ -1,30 +1,36 @@
 import moment from "moment";
 import { useState } from "react";
-import { CloseOutlined, DeleteOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Upload } from "antd";
+import { CloseOutlined, DeleteOutlined, SaveOutlined } from "@ant-design/icons";
+import { Col, DatePicker, Form, Input, InputNumber, Modal, Row } from "antd";
 import { storage, refer, upload, getUrl } from "../../../../services/firebase";
 
 import { Offer } from "../../interfaces/interfaces";
+import { addDoc } from "firebase/firestore";
+import { Offers } from "../../../../interfaces/interfaces";
 
-export function ModalOffer ({ visible, showModal }: Offer) { 
+export function ModalOffer ({ visible, showModal, offersCollectionRef }: Offer) { 
   const [form] = Form.useForm();
   const [urls, setUrls] = useState<string[]>([]);
   const [images, setImages] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
     const uploadedFiles = [...e.target.files];
-    uploadedFiles.map((file) => {
+    uploadedFiles.forEach((file) => {
       setImages((prevState) => [...prevState, { file, id: Math.random() }]);
     });
   }
 
-  const handleDelete = () => {
+  const handleDeleteImages = () => {
     form.resetFields(["images"])
     setImages([]);
   }
 
+  const handleDeleteUrls = () => {
+    setUrls([]);
+  }
+
   function handleUpload() {
-    images.map((image) => {
+    images.forEach((image) => {
       const storageRef = refer(storage, `images/${image.file.name}`);
       const uploadTask = upload(storageRef, image.file);
 
@@ -32,19 +38,44 @@ export function ModalOffer ({ visible, showModal }: Offer) {
         async () => {
           await getUrl(uploadTask.snapshot.ref).then((downloadURL) => {
             setUrls((prevState) => [...prevState, downloadURL]);
-          })
+          });
         }
       )
     })
   }
+
+  async function createOffer() {
+    const offer: Offers = {
+      model: form.getFieldValue("model"),
+      brand: form.getFieldValue("brand"),
+      price: form.getFieldValue("price"),
+      mileage: form.getFieldValue("mileage"),
+      color: form.getFieldValue("color"),
+      city: form.getFieldValue("city"),
+      plate: form.getFieldValue("plate"),
+      views: 0,
+      images: urls,
+      date: moment().format("DD/MM/YYYY"),
+      year: moment(form.getFieldValue("year")).format("YYYY")
+    }
+
+    try {
+      await form.validateFields()
+        .then(async () => await addDoc(offersCollectionRef, offer))
+        .then(() => showModal());
+    } finally {
+      handleDeleteImages();
+      handleDeleteUrls();
+    }
+  } 
   
   return (
     <Modal
       okText="Salvar"
       visible={visible}
-      onOk={handleUpload}
+      onOk={createOffer}
       onCancel={showModal}
-      afterClose={handleDelete}
+      afterClose={handleDeleteImages}
       okButtonProps={{ icon: <SaveOutlined /> }}
       cancelButtonProps={{ icon: <CloseOutlined /> }}
     >
@@ -91,9 +122,6 @@ export function ModalOffer ({ visible, showModal }: Offer) {
               <InputNumber
                 min={0}
                 defaultValue={0}
-                formatter={(value) =>
-                  `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
               />
             </Form.Item>
           </Col>
@@ -113,9 +141,6 @@ export function ModalOffer ({ visible, showModal }: Offer) {
               <InputNumber
                 min={0}
                 defaultValue={0}
-                formatter={(value) =>
-                  `${value} KM`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
               />
             </Form.Item>
           </Col>
@@ -176,8 +201,8 @@ export function ModalOffer ({ visible, showModal }: Offer) {
             </Form.Item>
           </Col>
         </Row>
-        <Row justify="space-between">
-          <Col style={{ marginLeft: 10 }}>
+        <Row justify="start">
+          <Col style={{ marginLeft: 10}}>
             <Form.Item
               label="Imagens"
               name="images"
@@ -198,8 +223,11 @@ export function ModalOffer ({ visible, showModal }: Offer) {
               />
             </Form.Item>
           </Col>
-          <Col style={{ marginTop: 40, marginRight: 100, color: "red" }}>
-            <DeleteOutlined onClick={handleDelete} />
+          <Col style={{color: "green", marginTop: 40, marginLeft: 10}}>
+            <SaveOutlined onClick={handleUpload} />
+          </Col>
+          <Col style={{color: "red", marginTop: 40, marginLeft: 10}}>
+            <DeleteOutlined onClick={handleDeleteImages} />
           </Col>
         </Row>
       </Form>

@@ -1,23 +1,61 @@
+import { Button } from "antd";
+import { AlignType } from "rc-table/lib/interface";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+
+import { Offers } from "../../../../interfaces/interfaces";
+
 export const columns = [
   {
-    title: 'Modelo'
+    title: "Modelo",
+    index: "",
+    render: (offer: Offers) => <p>{offer.model}</p>,
   },
   {
-    title: 'Marca'
+    title: "Marca",
+    index: "",
+    render: (offer: Offers) => <p>{offer.brand}</p>,
   },
   {
-    title: 'Preço'
+    title: "Preço",
+    index: "",
+    render: (offer: Offers) => <p>{offer.price}</p>,
   },
   {
-    title: 'Km'
+    title: "Km",
+    index: "",
+    render: (offer: Offers) => <p>{offer.mileage}</p>,
   },
   {
-    title: 'Data'
+    title: "Data",
+    index: "",
+    render: (offer: Offers) => <p>{offer.date}</p>,
   },
   {
-    title: 'Editar'
+    width: 50,
+    align: "center" as AlignType,
+    title: "Editar",
+    index: "",
+    render: (offer: Offers) => (
+      <p>
+        <Button
+          icon={<EditOutlined />}
+          // onClick={}
+        />
+      </p>
+    ),
   },
   {
-    title: 'Excluir'
-  }
+    width: 50,
+    align: "center" as AlignType,
+    title: "Excluir",
+    index: "",
+    render: (offer: Offers) => (
+      <p>
+        <Button
+          icon={<DeleteOutlined />}
+          // onClick={}
+        />
+      </p>
+    ),
+  },
 ];
