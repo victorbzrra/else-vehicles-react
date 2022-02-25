@@ -3,7 +3,6 @@ import { Button, Col, Row } from "antd";
 
 import { CardGrid } from "./components/CardGrid";
 import { CardList } from "./components/CardList";
-// import { ViewOffer } from "./components/ViewOffer";
 
 import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
@@ -20,8 +19,12 @@ export function OffersPage() {
 
   useEffect(() => {
     const getOffers = async () => {
-      const data = await getDocs(offersCollectionRef);
-      setOffers(data.docs.map((doc: any) => ({ ...doc.data(), id: doc.id})));
+      try {
+        const data = await getDocs(offersCollectionRef);
+        setOffers(data.docs.map((doc: any) => ({ ...doc.data(), id: doc.id})));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getOffers();
@@ -37,25 +40,11 @@ export function OffersPage() {
           />
         </Col>
       </Row>
-      { view === false 
-        ? (
-          <CardGrid 
-            offers={offers}
-            // showModal={showModal}
-          />
-        )
-        : (
-          <CardList
-            offers={offers}
-            // showModal={showModal}
-          />
-        )
-      }
-      {/* <ViewOffer 
-        visible={viewModal} 
-        showModal={showModal}
-        offers={offers}
-      /> */}
+      {view === false ? (
+        <CardGrid offers={offers} />
+      ) : (
+        <CardList offers={offers} />
+      )}
     </>
   );
 }

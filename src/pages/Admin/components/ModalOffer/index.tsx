@@ -1,11 +1,11 @@
 import moment from "moment";
 import { useState } from "react";
+import { addDoc } from "firebase/firestore";
 import { CloseOutlined, DeleteOutlined, SaveOutlined } from "@ant-design/icons";
 import { Col, DatePicker, Form, Input, InputNumber, Modal, Row } from "antd";
-import { storage, refer, upload, getUrl } from "../../../../services/firebase";
+import { storage, refer, upload, getUrl, database } from "../../../../services/firebase";
 
 import { Offer } from "../../interfaces/interfaces";
-import { addDoc } from "firebase/firestore";
 import { Offers } from "../../../../interfaces/interfaces";
 
 export function ModalOffer ({ visible, showModal, offersCollectionRef }: Offer) { 
