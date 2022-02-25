@@ -7,6 +7,8 @@ import { GridProps } from "../../interfaces/interfaces";
 import { Offers } from "../../../../interfaces/interfaces";
 
 import "../../styles/styles.css";
+import { database } from "../../../../services/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 export function CardGrid({ offers }: GridProps) {
   const [offer, setOffer] = useState<Offers>();
@@ -16,9 +18,12 @@ export function CardGrid({ offers }: GridProps) {
     setViewModal(!viewModal);
   }
 
-  function handleOffer(offer: Offers) {
+  async function handleOffer(offer: Offers) {
     setOffer(offer);
     handleViewModal();
+    
+    const offerDoc = doc(database, "offers", offer.id as string);
+    await updateDoc(offerDoc, { views: offer.views + 1});
   }
   
   return (

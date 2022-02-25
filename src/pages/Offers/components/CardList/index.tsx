@@ -5,6 +5,8 @@ import { EyeOutlined } from "@ant-design/icons";
 import { GridProps } from "../../interfaces/interfaces";
 import { Offers } from "../../../../interfaces/interfaces";
 import { ViewOffer } from "../ViewOffer";
+import { database } from "../../../../services/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 export function CardList({ offers }: GridProps) {
   const [viewModal, setViewModal] = useState(false);
@@ -13,8 +15,11 @@ export function CardList({ offers }: GridProps) {
     setViewModal(!viewModal);
   }
 
-  function handleOffer() {
+  async function handleOffer(offer: Offers) {
     handleViewModal();
+
+    const offerDoc = doc(database, "offers", offer.id as string);
+    await updateDoc(offerDoc, { views: offer.views + 1});
   }
   
   return (
@@ -25,7 +30,7 @@ export function CardList({ offers }: GridProps) {
             <Card
               type="inner"
               style={{ minWidth: 550 }}
-              onClick={() => handleOffer()}
+              onClick={() => handleOffer(offer)}
               hoverable
             >
               <Row className="title">{`${offer.model}, ${offer.brand}`}</Row>
